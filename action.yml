@@ -1,0 +1,11 @@
+name: 'Testing Report Generator'
+description: 'Create an issue including a testing report'
+inputs:
+  title:
+    description: "Title of an issue"
+    required: true
+    default: 'Testing Report'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+
