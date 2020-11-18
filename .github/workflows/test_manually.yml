@@ -1,0 +1,42 @@
+name: test_issue_generation_manually
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_owner:
+        description: "Repo owner"
+        required: true
+        default: 'granluo'
+      repo_name:
+        description: "Repo name"
+        required: true
+        default: 'testing_report_generator'
+      title:
+        description: "Title of an issue"
+        required: true
+        default: 'Testing Report Manually'
+      label:
+        description: "Label of an issue"
+        required: true
+        default: 'manually-testing'
+      comment:
+        description: "Issue comment, including title, description, testing results"
+        required: true
+        default: '{ "title": "Nightly testing report", "test_results": [ { "table_name": "11/16/2020 report", "colunm_names": [ "Workflow", "11/15" ], "contents": [ { "Workflow": "[zip1](https://github.com/firebase/firebase-ios-sdk/blob/master/.github/workflows/zip.yml)", "11/15": "[failure](https://github.com/firebase/firebase-ios-sdk/actions/runs/365576620)" }, { "Workflow": "[zip2](https://github.com/firebase/firebase-ios-sdk/blob/master/.github/workflows/zip.yml)", "11/15": "failure" } ] }, { "table_name": "11/15/2020 report", "colunm_names": [ "Workflow", "11/14" ], "contents": [ { "Workflow": "[zip1](https://github.com/firebase/firebase-ios-sdk/blob/master/.github/workflows/zip.yml)", "11/14": "[failure](https://github.com/firebase/firebase-ios-sdk/actions/runs/365576620)" }, { "11/14": "[failure](https://github.com/firebase/firebase-ios-sdk/actions/runs/365576620)" } ] } ] }'
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: test
+    steps:
+    - uses: actions/checkout@v2
+    - name: Test the action
+      uses: ./
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repo_owner: ${{ github.event.inputs.repo_owner }}
+        repo_name: ${{ github.event.inputs.repo_name }}
+        title: ${{ github.event.inputs.title }}
+        label: ${{ github.event.inputs.label }}
+        comment: ${{ github.event.inputs.comment }}
