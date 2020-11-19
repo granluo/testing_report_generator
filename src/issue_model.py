@@ -83,3 +83,10 @@ class Report:
             output[TEST_RESULTS].append(content.convert_to_data_container())
         return output
 
+    def convert_to_json(self, file_name = None):
+        output = self.convert_to_data_container()
+        if file_name is not None:
+            with open(file_name, 'w') as f:
+                json.dump(output, f)
+        return json.dumps(output, indent = 2, sort_keys = True)
+
