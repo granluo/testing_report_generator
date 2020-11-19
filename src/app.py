@@ -7,7 +7,6 @@ from github import Github
 def main():
     ISSUE_COMMENT = os.getenv("INPUT_COMMENT")
     TOKEN = os.getenv("INPUT_TOKEN")
-    REPO_OWNER = os.getenv("INPUT_REPO_OWNER")
     REPO_NAME = os.getenv("INPUT_REPO_NAME")
     ISSUE_TITLE = os.getenv("INPUT_TITLE")
     ISSUE_LABEL = os.getenv("INPUT_LABEL")
@@ -16,7 +15,7 @@ def main():
     print(markdown)
 
     g = Github(TOKEN)
-    repo = g.get_repo(REPO_OWNER + '/' + REPO_NAME)
+    repo = g.get_repo(REPO_NAME)
     labels = [ISSUE_LABEL]
     issues = repo.get_issues(labels=labels, state='open')
     if issues.totalCount == 0:
@@ -39,7 +38,7 @@ def create_markdown(json_comment):
 
     text = []
     text.append('# ' + comment.get('title'))
-    text.append(comment.get('description', 'Failures are detected:'))
+    text.append(comment.get('description', ''))
 
     separator = ' | '
     divider = '------------'

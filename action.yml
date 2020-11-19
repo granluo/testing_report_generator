@@ -4,14 +4,10 @@ inputs:
   token:
     description: "GITHUB_TOKEN"
     required: true
-  repo_owner:
-    description: "Repo owner"
-    required: true
-    default: 'granluo'
   repo_name:
-    description: "Repo name"
+    description: "The owner and repository name"
     required: true
-    default: 'testing_report_generator'
+    default: 'granluo/testing_report_generator'
   title:
     description: "Title of an issue"
     required: true
