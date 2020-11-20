@@ -46,13 +46,13 @@ def create_markdown(json_comment):
     divider = '------------'
     for result in comment.get('test_results'):
         text.append('## ' + result.get('table_name'))
-        colunms = result.get('colunm_names')
-        text.append(separator.join(colunms))
-        text.append(separator.join([divider for i in range(len(colunms))]))
+        columns = result.get('column_names')
+        text.append(separator.join(columns))
+        text.append(separator.join([divider for i in range(len(columns))]))
         for content in result.get('contents'):
             row = ['']
-            for colunm in colunms:
-                row.append(content.get(colunm, ''))
+            for column in columns:
+                row.append(content.get(column, ''))
             row.append('')
             text.append(separator.join(row))
 
