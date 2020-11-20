@@ -8,6 +8,7 @@ import issue_model
 EVENT = 'schedule'
 SKIP_TESTS = ['performance-integration-tests','performance']
 TIME_ZONE = 'US/Pacific'
+utc=pytz.UTC
 
 class GithubClient():
 
@@ -80,7 +81,7 @@ class JsonGenerator():
             # if runs is not empty, then the first run will be get.
             for run in runs:
                 created_time = run.created_at.astimezone(timezone(TIME_ZONE))
-                if created_time < self.cur_time- datetime.timedelta(days = 1):
+                if utc.localize(created_time) < utc.localize(self.cur_time- datetime.timedelta(days = 1)):
                     break
                 created_time = created_time.strftime("%m/%d")
                 if created_time not in columns:
