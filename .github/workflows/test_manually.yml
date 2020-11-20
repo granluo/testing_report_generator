@@ -3,7 +3,7 @@ name: test_issue_generation_manually
 on:
   workflow_dispatch:
     inputs:
-      repo_name:
+      host_repo:
         description: "The owner and repository name"
         required: true
         default: 'granluo/testing_report_generator'
@@ -15,7 +15,7 @@ on:
         description: "Label of an issue"
         required: true
         default: 'manually-testing'
-      comment:
+      json_report:
         description: "Issue comment, including title, description, testing results"
         required: true
         default: '{ "title": "Nightly testing report", "test_results": [ { "table_name": "11/16/2020 report", "colunm_names": [ "Workflow", "11/15" ], "contents": [ { "Workflow": "[zip1](https://github.com/firebase/firebase-ios-sdk/blob/master/.github/workflows/zip.yml)", "11/15": "[failure](https://github.com/firebase/firebase-ios-sdk/actions/runs/365576620)" }, { "Workflow": "[zip2](https://github.com/firebase/firebase-ios-sdk/blob/master/.github/workflows/zip.yml)", "11/15": "failure" } ] }, { "table_name": "11/15/2020 report", "colunm_names": [ "Workflow", "11/14" ], "contents": [ { "Workflow": "[zip1](https://github.com/firebase/firebase-ios-sdk/blob/master/.github/workflows/zip.yml)", "11/14": "[failure](https://github.com/firebase/firebase-ios-sdk/actions/runs/365576620)" }, { "11/14": "[failure](https://github.com/firebase/firebase-ios-sdk/actions/runs/365576620)" } ] } ] }'
@@ -31,7 +31,7 @@ jobs:
       uses: ./
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        repo_name: ${{ github.event.inputs.repo_name }}
+        host_repo: ${{ github.event.inputs.host_repo }}
         title: ${{ github.event.inputs.title }}
         label: ${{ github.event.inputs.label }}
-        comment: ${{ github.event.inputs.comment }}
+        json_report: ${{ github.event.inputs.json_report }}
