@@ -11,6 +11,9 @@ on:
         description: "Target repo of workflows"
         required: false
         default: 'firebase/firebase-ios-sdk'
+      skip_workflows:
+        description: "Skip workflows"
+        required: false
       title:
         description: "Title of an issue"
         required: true
