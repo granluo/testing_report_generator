@@ -14,7 +14,7 @@ class GithubClient():
     def __init__(self, access_token, host_repo, target_repo = None):
         self.client = Github(access_token)
         self.set_host_repo(host_repo)
-        if target_repo is None:
+        if target_repo is None or not target_repo:
             self.set_target_repo(host_repo)
         else:
             self.set_target_repo(target_repo)
@@ -143,7 +143,7 @@ class JsonGenerator():
         # This is the result of reports/jsons got from GitHub APIs, only failed
         # report will generate an issue.
         is_testing_failed = None
-        if json_body is None:
+        if json_body is None or not json_body:
             json_body, is_testing_failed = self.generate_json()
         print("json_body is")
         print(json_body)
