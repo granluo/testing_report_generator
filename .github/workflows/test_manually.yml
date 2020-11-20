@@ -38,7 +38,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         host_repo: ${{ github.event.inputs.host_repo }}
-        target_repo: ${{ github.event.inputs.host_repo }}
+        target_repo: ${{ github.event.inputs.target_repo }}
         title: ${{ github.event.inputs.title }}
         label: ${{ github.event.inputs.label }}
         json_report: ${{ github.event.inputs.json_report }}
