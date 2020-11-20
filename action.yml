@@ -2,7 +2,7 @@ name: 'Testing Report Generator'
 description: 'Create an issue including a testing report'
 inputs:
   token:
-    description: "GITHUB_TOKEN"
+    description: "Github repo access token"
     required: true
   repo_name:
     description: "The owner and repository name"
