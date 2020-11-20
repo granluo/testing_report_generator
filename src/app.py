@@ -10,6 +10,8 @@ def main():
     REPO_NAME = os.getenv("INPUT_REPO_NAME")
     ISSUE_TITLE = os.getenv("INPUT_TITLE")
     ISSUE_LABEL = os.getenv("INPUT_LABEL")
+    
+    print(ISSUE_COMMENT)
 
     markdown, report_error = create_markdown(ISSUE_COMMENT)
     print(markdown)
