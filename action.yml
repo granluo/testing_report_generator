@@ -4,10 +4,12 @@ inputs:
   token:
     description: "Github repo access token"
     required: true
-  repo_name:
-    description: "The owner and repository name"
+  posted_repo:
+    description: "Name of repo that will post an issue"
     required: true
-    default: 'granluo/testing_report_generator'
+  read_repo:
+    description: "Name of repo whose workflow will be read."
+    required: false
   title:
     description: "Title of an issue"
     required: true

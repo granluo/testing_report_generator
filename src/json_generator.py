@@ -11,16 +11,23 @@ TIME_ZONE = 'US/Pacific'
 
 class GithubClient():
 
-    def __init__(self, access_token, repo):
+    def __init__(self, access_token, host_repo, target_repo = None):
         self.client = Github(access_token)
-        self.set_repo(repo)
+        self.set_host_repo(host_repo)
+        if target_repo is None:
+            self.set_target_repo(host_repo)
+        else:
+            self.set_target_repo(target_repo)
 
-    def set_repo(self, new_repo):
-        self.repo = self.client.get_repo(new_repo)
+    def set_host_repo(self, new_repo):
+        self.host_repo = self.client.get_repo(new_repo)
+
+    def set_target_repo(self, new_repo):
+        self.target_repo = self.client.get_repo(new_repo)
 
     def get_open_issues_by_label(self, label):
-        issue_label = self.repo.get_label(label)
-        issues = self.repo.get_issues( 
+        issue_label = self.host_repo.get_label(label)
+        issues = self.host_repo.get_issues( 
                 state = 'open',
                 sort='created',
                 direction='asc',
@@ -28,14 +35,14 @@ class GithubClient():
         return issues
 
     def get_workflows(self):
-       return self.repo.get_workflows()
+       return self.target_repo.get_workflows()
 
     def handle_issue(self, title, markdown_body, issue_label, testing_failed):
         labels = [issue_label]
-        issues = self.repo.get_issues(labels=labels, state='open')
+        issues = self.host_repo.get_issues(labels=labels, state='open')
         if issues.totalCount == 0:
             if testing_failed:
-                self.repo.create_issue(title=title, body=markdown_body, labels=[issue_label])
+                self.host_repo.create_issue(title=title, body=markdown_body, labels=[issue_label])
         else:
             first_issue = issues[0]
             if testing_failed:
