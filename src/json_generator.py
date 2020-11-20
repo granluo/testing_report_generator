@@ -145,6 +145,8 @@ class JsonGenerator():
         is_testing_failed = None
         if json_body is None:
             json_body, is_testing_failed = self.generate_json()
+        print("json_body is")
+        print(json_body)
         report = json.loads(json_body)
 
         text = []
