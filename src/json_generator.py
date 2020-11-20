@@ -152,6 +152,8 @@ class JsonGenerator():
             table = []
             table.append('## ' + result.get('table_name'))
             columns = result.get('column_names')
+            print(columns)
+            print(type(columns))
             text.append(separator.join(columns))
             text.append(separator.join([divider for i in range(len(columns))]))
             for content in result.get('contents'):
