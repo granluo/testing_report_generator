@@ -16,6 +16,9 @@ inputs:
     description: "Label of an issue"
     required: true
     default: 'nightly-testing'
+  skip_workflows:
+    description: "Exclude testing workflows."
+    required: false
   comment:
     description: "Issue comment, including title, description, testing results"
     required: true
