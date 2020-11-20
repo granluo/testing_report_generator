@@ -81,7 +81,7 @@ class JsonGenerator():
             # if runs is not empty, then the first run will be get.
             for run in runs:
                 created_time = run.created_at.astimezone(timezone(TIME_ZONE))
-                if utc.localize(created_time) < utc.localize(self.cur_time- datetime.timedelta(days = 1)):
+                if created_time.replace(tzinfo=utc) < (self.cur_time- datetime.timedelta(days = 1)).replace(tzinfo=utc):
                     break
                 created_time = created_time.strftime("%m/%d")
                 if created_time not in columns:
