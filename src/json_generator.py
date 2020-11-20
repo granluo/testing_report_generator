@@ -91,36 +91,81 @@ class JsonGenerator():
        self.report.add_table(new_table) 
 
     def generate_json(self, file_name = None):
-       columns, contents, is_testing_failed = self.get_runs_of_workflows_for_json()
-       self.create_and_add_table("Nightly All Workflow Report", columns, contents)
-       if file_name is not None:
-           self.report.convert_to_json(file_name)
-       output = self.report.convert_to_json()
-       return output, is_testing_failed
+        """ Generate json text or file of testing reports.
+
+        Testing reports are got from Github APIs. This report will be
+        transferred to json output with a signal to determine if tests are
+        failed.
+        Args:
+        file_name: A json file with this name will be generated if it is not
+        none.
+
+        Returns:
+        output: json text for testing reports.
+        is_testing_failed: show the result of testing reports.
+        """
+        columns, contents, is_testing_failed = self.get_runs_of_workflows_for_json()
+        self.create_and_add_table("Nightly All Workflow Report", columns, contents)
+        if file_name is not None:
+            self.report.convert_to_json(file_name)
+        output = self.report.convert_to_json()
+        return output, is_testing_failed
         
-    def generate_markdown(self):
-        json_body, is_testing_failed= self.generate_json()
-        comment = json.loads(json_body)
+    def generate_markdown(self, json_body = None):
+        """ This is to generate a markdown and a signal to post an issue.
+
+        This function will generate a markdown report based on generate_json
+        or the input json_body, if it is not none.
+
+        json_body is to generate a markdown without using Github APIs. This is
+        to help repos which cannot get testing results through Github APIs
+        directly. These repos can offer a json text with specific format to 
+        create an issue on Github Repo.
+
+        Args:
+        json_body: will generate a markdown based on this json text.
+        
+        Return:
+        markdown that can be displayed on Github issues with formats.
+        posting_issue: This is to determine if results will be displayed.
+
+        """
+        # This is to show if json_body has any filled table. A report with no
+        # table will not create a corresponding issue.
+        is_table_filled = False
+        # This is the result of reports/jsons got from GitHub APIs, only failed
+        # report will generate an issue.
+        is_testing_failed = None
+        if json_body is None:
+            json_body, is_testing_failed = self.generate_json()
+        report = json.loads(json_body)
 
         text = []
-        text.append('# ' + comment.get('title'))
-        text.append(comment.get('description', 'Failures are detected:'))
+        report_header = []
+        report_header.append('# ' + report.get('title'))
+        report_header.append(report.get('description', 'Testing report:'))
 
         separator = ' | '
         divider = '------------'
-        for result in comment.get('test_results'):
-            text.append('## ' + result.get('table_name'))
+        tables = []
+        for result in report.get('test_results'):
+            table = []
+            table.append('## ' + result.get('table_name'))
             columns = result.get('column_names')
             text.append(separator.join(columns))
             text.append(separator.join([divider for i in range(len(columns))]))
             for content in result.get('contents'):
+                # If there exis
+                if not is_table_filled :
+                    is_table_filled = True
                 row = ['']
                 for column in columns:
                     row.append(content.get(column, ''))
                 row.append('')
                 text.append(separator.join(row))
-
-        return '\n'.join(text), is_testing_failed
+        
+        posting_issue = is_testing_failed if is_testing_failed is not None else is_table_filled
+        return '\n'.join(text), posting_issue
 
 
 def main():
