@@ -49,11 +49,11 @@ class GithubClient():
 
 class JsonGenerator():
 
-    def __init__(self, title, repo_client):
+    def __init__(self, title, repo_client, skip_workflows):
         self.report = issue_model.Report(title = title)
         self.client = repo_client
         self.cur_time = datetime.datetime.now()
-        self.skip_tests = set(SKIP_TESTS)
+        self.skip_tests = set(skip_workflows)
 
     def set_description(self, description):
         self.report.description = description
@@ -124,7 +124,7 @@ class JsonGenerator():
 
 
 def main():
-    repo = GithubClient('1d95f4b4d680e937987334ebc0d109d4a39ff038', 'granluo/testing_report_generator')
+    repo = GithubClient('token', 'granluo/testing_report_generator')
     json_generator = JsonGenerator('testing title', repo)
     markdown_body, testing_failed = json_generator.generate_markdown()
     repo.handle_issue("Title", markdown_body, 'Nightly-testing', testing_failed)
