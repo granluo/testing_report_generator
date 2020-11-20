@@ -141,19 +141,14 @@ class JsonGenerator():
         report = json.loads(json_body)
 
         text = []
-        report_header = []
-        report_header.append('# ' + report.get('title'))
-        report_header.append(report.get('description', 'Testing report:'))
+        text.append('# ' + report.get('title'))
+        text.append(report.get('description', 'Testing report:'))
 
         separator = ' | '
         divider = '------------'
-        tables = []
         for result in report.get('test_results'):
-            table = []
-            table.append('## ' + result.get('table_name'))
+            text.append('## ' + result.get('table_name'))
             columns = result.get('column_names')
-            print(columns)
-            print(type(columns))
             text.append(separator.join(columns))
             text.append(separator.join([divider for i in range(len(columns))]))
             for content in result.get('contents'):
