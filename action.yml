@@ -19,6 +19,7 @@ inputs:
   skip_workflows:
     description: "Exclude testing workflows."
     required: false
+    default: ''
   comment:
     description: "Issue comment, including title, description, testing results"
     required: true
