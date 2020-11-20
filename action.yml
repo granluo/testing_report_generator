@@ -4,10 +4,10 @@ inputs:
   token:
     description: "Github repo access token"
     required: true
-  posted_repo:
+  host_repo:
     description: "Name of repo that will post an issue"
     required: true
-  read_repo:
+  target_repo:
     description: "Name of repo whose workflow will be read."
     required: false
   title:

@@ -13,7 +13,7 @@ jobs:
       uses: ./
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        repo_name: ${{ github.repository }}
+        host_repo: ${{ github.repository }}
         title: "Testing title"
         label: "nightly-testing"
 
