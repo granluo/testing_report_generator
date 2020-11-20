@@ -80,6 +80,8 @@ class JsonGenerator():
             # if runs is not empty, then the first run will be get.
             for run in runs:
                 created_time = run.created_at.astimezone(timezone(TIME_ZONE)).strftime("%m/%d")
+                if created_time < self.cur_time- datetime.timedelta(days = 1):
+                    break
                 if created_time not in columns:
                     columns.append(created_time)
                 run_result = {'Workflow':workflow.name, created_time: "[{}]({})".format(run.conclusion, run.html_url)}
